@@ -31,6 +31,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
+    implementation("com.google.guava:guava:30.1.1-jre")
     testImplementation(kotlin("test-junit"))
     testImplementation("org.jetbrains.kotlinx:lincheck-jvm:2.14.1")
 }

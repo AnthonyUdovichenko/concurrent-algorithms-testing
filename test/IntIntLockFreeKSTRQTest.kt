@@ -1,3 +1,4 @@
+import LockFreeKSTRQ.LockFreeKSTRQ
 import org.jetbrains.kotlinx.lincheck.LoggingLevel
 import org.jetbrains.kotlinx.lincheck.annotations.Operation
 import org.jetbrains.kotlinx.lincheck.annotations.Param

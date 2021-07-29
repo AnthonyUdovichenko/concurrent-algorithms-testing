@@ -15,20 +15,20 @@ import org.junit.Test
 abstract class IntIntLockFreeKSTRQTest(k: Int) {
     private val tree: LockFreeKSTRQ<Int, Int> = LockFreeKSTRQ(k)
 
-    @Operation(handleExceptionsAsResult = [NullPointerException::class])
+    @Operation
     fun containsKey(@Param(name = "key") key: Int): Boolean = tree.containsKey(key)
 
-    @Operation(handleExceptionsAsResult = [NullPointerException::class])
+    @Operation
     fun get(@Param(name = "key") key: Int): Int? = tree.get(key)
 
-    @Operation(handleExceptionsAsResult = [NullPointerException::class])
+    @Operation
     fun putIfAbsent(@Param(name = "key") key: Int, @Param(name = "value") value: Int): Int? =
         tree.putIfAbsent(key, value)
 
-    @Operation(handleExceptionsAsResult = [NullPointerException::class])
+    @Operation
     fun put(@Param(name = "key") key: Int, @Param(name = "value") value: Int): Int? = tree.put(key, value)
 
-    @Operation(handleExceptionsAsResult = [NullPointerException::class])
+    @Operation
     fun remove(@Param(name = "key") key: Int): Int? = tree.remove(key)
 
     @Test

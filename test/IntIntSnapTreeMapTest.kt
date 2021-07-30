@@ -1,3 +1,9 @@
+/**
+ * This test helped to find bug in SpanTreeMap.
+ * See details in bugsfound/IntIntSnapTreeMap/index.html
+ * In this regard, no changes will be made to this file anymore.
+ */
+
 import SnapTree.SnapTreeMap
 import org.jetbrains.kotlinx.lincheck.LoggingLevel
 import org.jetbrains.kotlinx.lincheck.annotations.Operation

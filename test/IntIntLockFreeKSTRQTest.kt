@@ -6,13 +6,20 @@ import org.jetbrains.kotlinx.lincheck.check
 import org.jetbrains.kotlinx.lincheck.paramgen.IntGen
 import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.ModelCheckingOptions
 import org.jetbrains.kotlinx.lincheck.strategy.stress.StressOptions
+import org.jetbrains.kotlinx.lincheck.verifier.VerifierState
 import org.junit.Test
 
+const val MIN_KEY = 1
+const val MAX_KEY = 8
+
+const val MIN_VALUE = 1
+const val MAX_VALUE = 10
+
 @Param.Params(
-    Param(name = "key", gen = IntGen::class, conf = "1:8"),
-    Param(name = "value", gen = IntGen::class, conf = "1:10")
+    Param(name = "key", gen = IntGen::class, conf = "$MIN_KEY:$MAX_KEY"),
+    Param(name = "value", gen = IntGen::class, conf = "$MIN_VALUE:$MAX_VALUE")
 )
-abstract class IntIntLockFreeKSTRQTest(k: Int) {
+abstract class IntIntLockFreeKSTRQTest(k: Int) : VerifierState() {
     private val tree: LockFreeKSTRQ<Int, Int> = LockFreeKSTRQ(k)
 
     @Operation
@@ -52,6 +59,8 @@ abstract class IntIntLockFreeKSTRQTest(k: Int) {
         .actorsPerThread(4)
         .logLevel(LoggingLevel.INFO)
         .check(this::class.java)
+
+    override fun extractState() = (MIN_KEY..MAX_KEY).map { key -> tree.get(key) }
 }
 
 class IntIntLockFreeKSTRQTest2: IntIntLockFreeKSTRQTest(2)

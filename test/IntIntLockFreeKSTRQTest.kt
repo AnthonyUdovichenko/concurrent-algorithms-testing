@@ -9,11 +9,11 @@ import org.jetbrains.kotlinx.lincheck.strategy.stress.StressOptions
 import org.jetbrains.kotlinx.lincheck.verifier.VerifierState
 import org.junit.Test
 
-const val MIN_KEY = 1
-const val MAX_KEY = 8
+private const val MIN_KEY = 1
+private const val MAX_KEY = 8
 
-const val MIN_VALUE = 1
-const val MAX_VALUE = 10
+private const val MIN_VALUE = 1
+private const val MAX_VALUE = 10
 
 @Param.Params(
     Param(name = "key", gen = IntGen::class, conf = "$MIN_KEY:$MAX_KEY"),

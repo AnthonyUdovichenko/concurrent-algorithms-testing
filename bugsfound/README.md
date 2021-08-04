@@ -1,6 +1,6 @@
-#Bugs found in tested algorithms
+# Bugs found in tested algorithms
 
-##[SnapTreeMap](../src/SnapTree/SnapTreeMap.java)
+## [SnapTreeMap](../src/SnapTree/SnapTreeMap.java)
 
 [Lincheck](https://github.com/Kotlin/kotlinx-lincheck) found error while executing following scenario:
 ```

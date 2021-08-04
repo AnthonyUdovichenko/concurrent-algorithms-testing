@@ -1,6 +1,6 @@
 /**
- * This test helped to find bug in SpanTreeMap.
- * See details in bugsfound/IntIntSnapTreeMap/index.html
+ * This test helped to find bug in SnapTreeMap.
+ * See details in bugsfound/IntIntSnapTreeMap/README.md
  * In this regard, no changes will be made to this file anymore.
  */
 
@@ -10,8 +10,8 @@ import org.jetbrains.kotlinx.lincheck.annotations.Operation
 import org.jetbrains.kotlinx.lincheck.annotations.Param
 import org.jetbrains.kotlinx.lincheck.check
 import org.jetbrains.kotlinx.lincheck.paramgen.IntGen
+import org.jetbrains.kotlinx.lincheck.scenario
 import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.ModelCheckingOptions
-import org.jetbrains.kotlinx.lincheck.strategy.stress.StressOptions
 import org.junit.Test
 
 @Param.Params(
@@ -75,27 +75,28 @@ class IntIntSnapTreeMapTest {
     fun remove(@Param(name = "key") key: Int): Int? = stm.remove(key)
 
     @Operation(handleExceptionsAsResult = [NullPointerException::class])
-    fun remove(@Param(name = "key") key: Int, @Param(name = "value") value: Int): Boolean = stm.remove(key, value)
-
-    @Test
-    fun runStressTest() = StressOptions()
-        .iterations(100)
-        .invocationsPerIteration(10_000)
-        .actorsBefore(10)
-        .actorsAfter(10)
-        .threads(3)
-        .actorsPerThread(4)
-        .logLevel(LoggingLevel.INFO)
-        .check(this::class.java)
+    fun remove2(@Param(name = "key") key: Int, @Param(name = "value") value: Int): Boolean = stm.remove(key, value)
 
     @Test
     fun runModelCheckingTest() = ModelCheckingOptions()
-        .iterations(100)
-        .invocationsPerIteration(10_000)
-        .actorsBefore(10)
-        .actorsAfter(10)
-        .threads(3)
-        .actorsPerThread(4)
+        .iterations(0)
+        .addCustomScenario(scenario)
         .logLevel(LoggingLevel.INFO)
         .check(this::class.java)
+}
+
+val scenario = scenario {
+    initial {
+        actor(IntIntSnapTreeMapTest::putIfAbsent, 2, 4)
+        actor(IntIntSnapTreeMapTest::putIfAbsent, 4, 2)
+    }
+    parallel {
+        thread {
+            actor(IntIntSnapTreeMapTest::putIfAbsent, 6, 4)
+            actor(IntIntSnapTreeMapTest::remove, 4)
+        }
+        thread {
+            actor(IntIntSnapTreeMapTest::lastKey)
+        }
+    }
 }

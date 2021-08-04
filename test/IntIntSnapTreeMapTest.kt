@@ -85,7 +85,7 @@ class IntIntSnapTreeMapTest {
         .check(this::class.java)
 }
 
-val scenario = scenario {
+private val scenario = scenario {
     initial {
         actor(IntIntSnapTreeMapTest::putIfAbsent, 2, 4)
         actor(IntIntSnapTreeMapTest::putIfAbsent, 4, 2)

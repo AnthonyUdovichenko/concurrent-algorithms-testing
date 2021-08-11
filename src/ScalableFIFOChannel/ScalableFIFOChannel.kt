@@ -23,12 +23,12 @@ class ScalableFIFOChannel {
             return
         if (prev == null)
             return
-        n.removed = true
+        n.cleaned = true
         prev.moveNextToRight(next)
         next.movePrevToLeft(prev)
-        if (prev.removed)
+        if (prev.cleaned)
             remove(prev)
-        if (next.removed)
+        if (next.cleaned)
             remove(next)
     }
 
@@ -51,10 +51,10 @@ class ScalableFIFOChannel {
     fun hasRemovedNodes(): Boolean {
         var curNode = head.value
         while (curNode != tail.value) {
-            if (curNode.removed) return true
+            if (curNode.cleaned) return true
             curNode = curNode.next.value!!
         }
-        if (curNode.removed) return true
+        if (curNode.cleaned) return true
         return false
     }
 }

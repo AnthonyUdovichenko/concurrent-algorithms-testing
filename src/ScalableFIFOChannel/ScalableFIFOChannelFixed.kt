@@ -38,9 +38,8 @@ class ScalableFIFOChannelFixed {
             var curHead = head.value
             val curTail = tail.value
             if (curHead == head.value) {
-                if (curHead == curTail) {
+                if (curHead == curTail)
                     return
-                }
                 var next = curHead.next.value!!
                 next.prev.value = null
                 while (head.compareAndSet(curHead, next)) {
@@ -58,6 +57,7 @@ class ScalableFIFOChannelFixed {
         var curNode = head.value
         while (curNode != tail.value) {
             if (curNode.removed) return true
+            if (curNode != head.value && curNode.prev.value!!.next.value != curNode) return true
             curNode = curNode.next.value!!
         }
         if (curNode.removed) return true

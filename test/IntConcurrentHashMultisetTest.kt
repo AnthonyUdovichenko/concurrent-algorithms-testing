@@ -1,3 +1,7 @@
+/**
+ * This test didn't find any bugs in ConcurrentHashMultiset.
+ */
+
 import com.google.common.collect.ConcurrentHashMultiset
 import com.google.common.collect.HashMultiset
 import org.jetbrains.kotlinx.lincheck.LoggingLevel

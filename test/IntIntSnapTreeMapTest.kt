@@ -1,6 +1,6 @@
 /**
  * This test helped to find bug in SnapTreeMap.
- * See details in bugsfound/IntIntSnapTreeMap/README.md
+ * See details in bugsfound/README.md
  * In this regard, no changes will be made to this file anymore.
  */
 

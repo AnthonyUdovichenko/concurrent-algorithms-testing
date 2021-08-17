@@ -1,3 +1,7 @@
+/**
+ * This test didn't find any bugs in ConcurrentHashMap.
+ */
+
 import org.jetbrains.kotlinx.lincheck.annotations.*
 import org.jetbrains.kotlinx.lincheck.annotations.Operation
 import org.jetbrains.kotlinx.lincheck.paramgen.*

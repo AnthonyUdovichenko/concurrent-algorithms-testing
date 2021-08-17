@@ -1,3 +1,7 @@
+/**
+ * This test didn't find any bugs in ScalableFIFOChannelFixed.
+ */
+
 import ScalableFIFOChannel.Node
 import ScalableFIFOChannel.ScalableFIFOChannelFixed
 import org.jetbrains.kotlinx.lincheck.LoggingLevel

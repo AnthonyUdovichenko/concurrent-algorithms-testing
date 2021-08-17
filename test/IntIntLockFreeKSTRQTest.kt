@@ -1,3 +1,7 @@
+/**
+ * This test didn't find any bugs in LockFreeKSTRQ.
+ */
+
 import LockFreeKSTRQ.LockFreeKSTRQ
 import org.jetbrains.kotlinx.lincheck.LoggingLevel
 import org.jetbrains.kotlinx.lincheck.annotations.Operation

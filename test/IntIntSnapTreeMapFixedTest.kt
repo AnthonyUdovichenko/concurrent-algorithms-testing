@@ -1,3 +1,7 @@
+/**
+ * This test found a single-threaded problem in SnapTreeMapFixed, which is not part of our area of interest.
+ */
+
 import SnapTree.SnapTreeMapFixed
 import org.jetbrains.kotlinx.lincheck.LoggingLevel
 import org.jetbrains.kotlinx.lincheck.annotations.Operation

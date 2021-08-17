@@ -1,5 +1,5 @@
 /**
- * This test helped to find bug in SnapTreeMap.
+ * This test helped to find bug in ScalableFIFOChannel.
  * See details in bugsfound/ScalableFIFOChannel/index.html
  * In this regard, no changes will be made to this file anymore.
  */

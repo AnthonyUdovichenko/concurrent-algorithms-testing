@@ -1,3 +1,7 @@
+/**
+ * This test didn't find any bugs in ConcurrentLinkedQueue.
+ */
+
 import org.jetbrains.kotlinx.lincheck.LoggingLevel
 import org.jetbrains.kotlinx.lincheck.annotations.Operation
 import org.jetbrains.kotlinx.lincheck.annotations.Param

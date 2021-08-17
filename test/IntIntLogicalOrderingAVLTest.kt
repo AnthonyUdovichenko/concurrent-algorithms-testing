@@ -1,5 +1,5 @@
 /**
- * This test helped to find bug in SnapTreeMap.
+ * This test helped to find bug in LogicalOrderingAVL.
  * See details in bugsfound/README.md
  * In this regard, no changes will be made to this file anymore.
  */

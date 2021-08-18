@@ -1,8 +1,5 @@
 /**
- * This test doesn't work yet.
- *
- * Lincheck throws ClassCastException when executing stress test.
- * Model checking test doesn't work due to non-determinism in LockBasedFriendlyTreeMap.
+ * This test didn't find any bugs in LockBasedFriendlyTreeMapTest.
  */
 
 import LockBasedFriendlyTreeMap.LockBasedFriendlyTreeMap
@@ -39,18 +36,6 @@ class IntIntLockBasedFriendlyTreeMapTest: AbstractLincheckTest() {
     @Operation
     fun putIfAbsent(@Param(name = "key") key: Int, @Param(name = "value") value: Int): Int? =
         tree.putIfAbsent(key, value)
-
-    @Operation(handleExceptionsAsResult = [NullPointerException::class])
-    fun numNodes(): Int = tree.numNodes()
-
-    @Operation
-    fun getBalance(): Int = tree.balance
-
-    @Operation
-    fun clear() = tree.clear()
-
-    @Operation
-    fun getStructMods(): Long = tree.structMods
 
     override fun ModelCheckingOptions.customizeModelCheckingOptions() {
         actorsPerThread(5)

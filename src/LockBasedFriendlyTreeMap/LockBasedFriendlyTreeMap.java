@@ -21,7 +21,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 
 public class LockBasedFriendlyTreeMap<K, V> extends AbstractMap<K, V> implements
-		CompositionalMap<K, V>, MaintenanceAlg {
+		CompositionalMap<K, V>/*, MaintenanceAlg*/ {
 
 	static final boolean useFairLocks = false;
 	static final boolean allocateOutside = true;
@@ -30,7 +30,7 @@ public class LockBasedFriendlyTreeMap<K, V> extends AbstractMap<K, V> implements
 	static final char Right = 'R';
 	final V DELETED = (V) new Object();
 
-	private class MaintenanceThread extends Thread {
+	/*private class MaintenanceThread extends Thread {
 		LockBasedFriendlyTreeMap<K, V> map;
 
 		MaintenanceThread(LockBasedFriendlyTreeMap<K, V> map) {
@@ -40,7 +40,7 @@ public class LockBasedFriendlyTreeMap<K, V> extends AbstractMap<K, V> implements
 		public void run() {
 			map.doMaintenance();
 		}
-	}
+	}*/
 
 	private class MaintVariables {
 		long propogations = 0, rotations = 0;
@@ -126,7 +126,7 @@ public class LockBasedFriendlyTreeMap<K, V> extends AbstractMap<K, V> implements
 	private final Node<K, V> root = new Node<K, V>(null, null);
 	private Comparator<? super K> comparator;
 	volatile boolean stop = false;
-	private MaintenanceThread mainThd;
+	//private MaintenanceThread mainThd;
 	// used in the getSize function
 	int size;
 	private long structMods = 0;
@@ -134,12 +134,12 @@ public class LockBasedFriendlyTreeMap<K, V> extends AbstractMap<K, V> implements
 	// Constructors
 	public LockBasedFriendlyTreeMap() {
 		// temporary
-		this.startMaintenance();
+		//this.startMaintenance();
 	}
 
 	public LockBasedFriendlyTreeMap(final Comparator<? super K> comparator) {
 		// temporary
-		this.startMaintenance();
+		//this.startMaintenance();
 		this.comparator = comparator;
 	}
 
@@ -680,7 +680,7 @@ public class LockBasedFriendlyTreeMap<K, V> extends AbstractMap<K, V> implements
 		return true;
 	}
 
-	public boolean stopMaintenance() {
+	/*public boolean stopMaintenance() {
 		this.stop = true;
 		try {
 			this.mainThd.join();
@@ -689,9 +689,9 @@ public class LockBasedFriendlyTreeMap<K, V> extends AbstractMap<K, V> implements
 			e.printStackTrace();
 		}
 		return true;
-	}
+	}*/
 
-	public boolean startMaintenance() {
+	/*public boolean startMaintenance() {
 		this.stop = false;
 
 		mainThd = new MaintenanceThread(this);
@@ -699,7 +699,7 @@ public class LockBasedFriendlyTreeMap<K, V> extends AbstractMap<K, V> implements
 		mainThd.start();
 
 		return true;
-	}
+	}*/
 
 	boolean doMaintenance() {
 		while (!stop) {
@@ -776,9 +776,9 @@ public class LockBasedFriendlyTreeMap<K, V> extends AbstractMap<K, V> implements
 
 	@Override
 	public void clear() {
-		this.stopMaintenance();
+		//this.stopMaintenance();
 		this.resetTree();
-		this.startMaintenance();
+		//this.startMaintenance();
 
 		return;
 	}

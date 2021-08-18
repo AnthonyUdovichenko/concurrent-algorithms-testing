@@ -37,30 +37,6 @@ class IntIntConcurrencyOptimalTreeMapTest: AbstractLincheckTest() {
     @Operation
     fun containsKey(@Param(name = "key") key: Int): Boolean = tree.containsKey(key)
 
-    @Operation
-    fun size(): Int = tree.size
-
-    @Operation
-    fun hash(): Int = tree.hash()
-
-    @Operation(handleExceptionsAsResult = [ArithmeticException::class])
-    fun averageDepth(): Int = tree.averageDepth()
-
-    @Operation
-    fun maxDepth(): Int = tree.maxDepth()
-
-    @Operation(handleExceptionsAsResult = [ArithmeticException::class])
-    fun stopMaintenance(): Boolean = tree.stopMaintenance()
-
-    @Operation
-    fun numNodes(): Int = tree.numNodes()
-
-    @Operation
-    fun getStructMods(): Long = tree.structMods
-
-    @Operation
-    fun clear() = tree.clear()
-
     override fun ModelCheckingOptions.customizeModelCheckingOptions() {
         actorsPerThread(5)
         verboseTrace()

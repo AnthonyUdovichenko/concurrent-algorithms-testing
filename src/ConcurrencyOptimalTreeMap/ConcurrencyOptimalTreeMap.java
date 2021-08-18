@@ -696,75 +696,7 @@ public class ConcurrencyOptimalTreeMap<K, V> extends AbstractMap<K, V>
     @Override
     public Set<Entry<K, V>> entrySet() {
         //throw new AssertionError("Entry set is not implemented");
-        return new Set<Entry<K, V>>() {
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public boolean contains(Object o) {
-                return false;
-            }
-
-            @NotNull
-            @Override
-            public Iterator<Entry<K, V>> iterator() {
-                return null;
-            }
-
-            @NotNull
-            @Override
-            public Object[] toArray() {
-                return new Object[0];
-            }
-
-            @NotNull
-            @Override
-            public <T> T[] toArray(@NotNull T[] a) {
-                return null;
-            }
-
-            @Override
-            public boolean add(Entry<K, V> kvEntry) {
-                return false;
-            }
-
-            @Override
-            public boolean remove(Object o) {
-                return false;
-            }
-
-            @Override
-            public boolean containsAll(@NotNull Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(@NotNull Collection<? extends Entry<K, V>> c) {
-                return false;
-            }
-
-            @Override
-            public boolean retainAll(@NotNull Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public boolean removeAll(@NotNull Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public void clear() {
-
-            }
-        };
+        return new HashSet();
     }
 
     public int size(Node v) {

@@ -1,3 +1,4 @@
+import org.jetbrains.kotlinx.lincheck.LinChecker
 import org.jetbrains.kotlinx.lincheck.LoggingLevel
 import org.jetbrains.kotlinx.lincheck.Options
 import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.ModelCheckingOptions
@@ -16,6 +17,7 @@ abstract class AbstractLincheckTest : VerifierState() {
         invocationsPerIteration(10_000)
         commonConfiguration()
         customizeStressOptions()
+        LinChecker.check(this@AbstractLincheckTest::class.java, this)
     }
 
     @Test
@@ -23,6 +25,7 @@ abstract class AbstractLincheckTest : VerifierState() {
         invocationsPerIteration(10_000)
         commonConfiguration()
         customizeModelCheckingOptions()
+        LinChecker.check(this@AbstractLincheckTest::class.java, this)
     }
 
     private fun <O: Options<O, *>> O.commonConfiguration(): Unit = run {

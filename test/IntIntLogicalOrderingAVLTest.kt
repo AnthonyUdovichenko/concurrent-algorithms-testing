@@ -1,20 +1,15 @@
 /**
  * This test helped to find bug in LogicalOrderingAVL.
  * See details in bugsfound/README.md
- * In this regard, no changes will be made to this file anymore.
  */
 
 import LogicalOrderingAVL.LogicalOrderingAVL
-import org.jetbrains.kotlinx.lincheck.LoggingLevel
+import org.jetbrains.kotlinx.lincheck.Options
 import org.jetbrains.kotlinx.lincheck.annotations.Operation
 import org.jetbrains.kotlinx.lincheck.annotations.Param
-import org.jetbrains.kotlinx.lincheck.check
 import org.jetbrains.kotlinx.lincheck.paramgen.BooleanGen
 import org.jetbrains.kotlinx.lincheck.paramgen.IntGen
 import org.jetbrains.kotlinx.lincheck.scenario
-import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.ModelCheckingOptions
-import org.jetbrains.kotlinx.lincheck.verifier.VerifierState
-import org.junit.Test
 
 private const val MIN_KEY = 1
 private const val MAX_KEY = 8
@@ -27,7 +22,7 @@ private const val MAX_VALUE = 10
     Param(name = "value", gen = IntGen::class, conf = "$MIN_VALUE:$MAX_VALUE"),
     Param(name = "bool", gen = BooleanGen::class)
 )
-class IntIntLogicalOrderingAVLTest: VerifierState() {
+class IntIntLogicalOrderingAVLTest: AbstractLincheckTest() {
     private val tree = LogicalOrderingAVL<Int, Int>()
 
     @Operation
@@ -78,12 +73,9 @@ class IntIntLogicalOrderingAVLTest: VerifierState() {
     @Operation
     fun isEmpty(): Boolean = tree.isEmpty()
 
-    @Test
-    fun runModelCheckingTest() = ModelCheckingOptions()
-        .iterations(0)
-        .addCustomScenario(scenario)
-        .logLevel(LoggingLevel.INFO)
-        .check(this::class.java)
+    override fun <O : Options<O, *>> O.customize() {
+        addCustomScenario(scenario)
+    }
 
     override fun extractState() = (MIN_KEY..MAX_KEY).map { key -> tree.get(key) }
 }

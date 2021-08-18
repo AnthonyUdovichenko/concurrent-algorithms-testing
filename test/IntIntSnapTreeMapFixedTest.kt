@@ -3,21 +3,17 @@
  */
 
 import SnapTree.SnapTreeMapFixed
-import org.jetbrains.kotlinx.lincheck.LoggingLevel
+import org.jetbrains.kotlinx.lincheck.Options
 import org.jetbrains.kotlinx.lincheck.annotations.Operation
 import org.jetbrains.kotlinx.lincheck.annotations.Param
-import org.jetbrains.kotlinx.lincheck.check
 import org.jetbrains.kotlinx.lincheck.paramgen.IntGen
 import org.jetbrains.kotlinx.lincheck.scenario
-import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.ModelCheckingOptions
-import org.jetbrains.kotlinx.lincheck.strategy.stress.StressOptions
-import org.junit.Test
 
 @Param.Params(
     Param(name = "key", gen = IntGen::class, conf = "1:8"),
     Param(name = "value", gen = IntGen::class, conf = "1:10")
 )
-class IntIntSnapTreeMapFixedTest {
+class IntIntSnapTreeMapFixedTest: AbstractLincheckTest() {
     private val stm: SnapTreeMapFixed<Int, Int> = SnapTreeMapFixed()
 
     @Operation
@@ -73,29 +69,9 @@ class IntIntSnapTreeMapFixedTest {
     @Operation
     fun remove(@Param(name = "key") key: Int): Int? = stm.remove(key)
 
-    @Test
-    fun runStressTest() = StressOptions()
-        .iterations(100)
-        .invocationsPerIteration(10_000)
-        .actorsBefore(10)
-        .actorsAfter(10)
-        .threads(3)
-        .actorsPerThread(4)
-        .addCustomScenario(scenario)
-        .logLevel(LoggingLevel.INFO)
-        .check(this::class.java)
-
-    @Test
-    fun runModelCheckingTest() = ModelCheckingOptions()
-        .iterations(100)
-        .invocationsPerIteration(10_000)
-        .actorsBefore(10)
-        .actorsAfter(10)
-        .threads(3)
-        .actorsPerThread(4)
-        .addCustomScenario(scenario)
-        .logLevel(LoggingLevel.INFO)
-        .check(this::class.java)
+    override fun <O : Options<O, *>> O.customize() {
+        addCustomScenario(scenario)
+    }
 }
 
 private val scenario = scenario {

@@ -7,17 +7,15 @@ import org.jetbrains.kotlinx.lincheck.annotations.Operation
 import org.jetbrains.kotlinx.lincheck.paramgen.*
 import org.jetbrains.kotlinx.lincheck.strategy.stress.*
 import org.jetbrains.kotlinx.lincheck.verifier.*
-import org.jetbrains.kotlinx.lincheck.LoggingLevel.*
-import org.jetbrains.kotlinx.lincheck.check
+import org.jetbrains.kotlinx.lincheck.Options
 import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.ModelCheckingOptions
-import org.junit.*
 import java.util.concurrent.ConcurrentHashMap
 
 @Param.Params(
     Param(name = "key", gen = IntGen::class, conf = "1:8"),
     Param(name = "value", gen = IntGen::class, conf = "1:10")
 )
-class IntIntConcurrentHashMapTest {
+class IntIntConcurrentHashMapTest: AbstractLincheckTest() {
     private val hm = ConcurrentHashMap<Int, Int>()
 
     @Operation
@@ -29,29 +27,18 @@ class IntIntConcurrentHashMapTest {
     @Operation
     fun remove(@Param(name = "key") key: Int): Int? = hm.remove(key)
 
-    @Test
-    fun runStressTest() = StressOptions()
-        .iterations(100)
-        .invocationsPerIteration(50_000)
-        .actorsBefore(10)
-        .actorsAfter(10)
-        .threads(3)
-        .actorsPerThread(5)
-        .sequentialSpecification(IntIntHashMapSequential::class.java)
-        .logLevel(INFO)
-        .check(this::class.java)
+    override fun StressOptions.customizeStressOptions() {
+        invocationsPerIteration(50_000)
+    }
 
-    @Test
-    fun runModelCheckingTest() = ModelCheckingOptions()
-        .iterations(100)
-        .invocationsPerIteration(50_000)
-        .actorsBefore(10)
-        .actorsAfter(10)
-        .threads(3)
-        .actorsPerThread(5)
-        .sequentialSpecification(IntIntHashMapSequential::class.java)
-        .logLevel(INFO)
-        .check(this::class.java)
+    override fun ModelCheckingOptions.customizeModelCheckingOptions() {
+        invocationsPerIteration(50_000)
+    }
+
+    override fun <O : Options<O, *>> O.customize() {
+        actorsPerThread(5)
+        sequentialSpecification(IntIntHashMapSequential::class.java)
+    }
 }
 
 class IntIntHashMapSequential : VerifierState() {

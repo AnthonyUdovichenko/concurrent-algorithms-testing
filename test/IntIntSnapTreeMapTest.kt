@@ -1,24 +1,20 @@
 /**
  * This test helped to find bug in SnapTreeMap.
  * See details in bugsfound/README.md
- * In this regard, no changes will be made to this file anymore.
  */
 
 import SnapTree.SnapTreeMap
-import org.jetbrains.kotlinx.lincheck.LoggingLevel
+import org.jetbrains.kotlinx.lincheck.Options
 import org.jetbrains.kotlinx.lincheck.annotations.Operation
 import org.jetbrains.kotlinx.lincheck.annotations.Param
-import org.jetbrains.kotlinx.lincheck.check
 import org.jetbrains.kotlinx.lincheck.paramgen.IntGen
 import org.jetbrains.kotlinx.lincheck.scenario
-import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.ModelCheckingOptions
-import org.junit.Test
 
 @Param.Params(
     Param(name = "key", gen = IntGen::class, conf = "1:8"),
     Param(name = "value", gen = IntGen::class, conf = "1:10")
 )
-class IntIntSnapTreeMapTest {
+class IntIntSnapTreeMapTest: AbstractLincheckTest() {
     private val stm: SnapTreeMap<Int, Int> = SnapTreeMap()
 
     @Operation
@@ -77,12 +73,9 @@ class IntIntSnapTreeMapTest {
     @Operation(handleExceptionsAsResult = [NullPointerException::class])
     fun remove2(@Param(name = "key") key: Int, @Param(name = "value") value: Int): Boolean = stm.remove(key, value)
 
-    @Test
-    fun runModelCheckingTest() = ModelCheckingOptions()
-        .iterations(0)
-        .addCustomScenario(scenario)
-        .logLevel(LoggingLevel.INFO)
-        .check(this::class.java)
+    override fun <O : Options<O, *>> O.customize() {
+        addCustomScenario(scenario)
+    }
 }
 
 private val scenario = scenario {

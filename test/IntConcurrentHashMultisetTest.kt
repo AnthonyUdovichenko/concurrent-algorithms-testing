@@ -4,21 +4,19 @@
 
 import com.google.common.collect.ConcurrentHashMultiset
 import com.google.common.collect.HashMultiset
-import org.jetbrains.kotlinx.lincheck.LoggingLevel
+import org.jetbrains.kotlinx.lincheck.Options
 import org.jetbrains.kotlinx.lincheck.annotations.Operation
 import org.jetbrains.kotlinx.lincheck.annotations.Param
-import org.jetbrains.kotlinx.lincheck.check
 import org.jetbrains.kotlinx.lincheck.paramgen.IntGen
 import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.ModelCheckingOptions
 import org.jetbrains.kotlinx.lincheck.strategy.stress.StressOptions
 import org.jetbrains.kotlinx.lincheck.verifier.VerifierState
-import org.junit.Test
 
 @Param.Params(
     Param(name = "elem", gen = IntGen::class, conf = "1:5"),
     Param(name = "num", gen = IntGen::class, conf = "1:3")
 )
-class IntConcurrentHashMultisetTest {
+class IntConcurrentHashMultisetTest: AbstractLincheckTest() {
     private val hm = ConcurrentHashMultiset.create<Int>()
 
     @Operation
@@ -43,29 +41,18 @@ class IntConcurrentHashMultisetTest {
     @Operation
     fun remove(@Param(name = "elem") element: Int): Boolean = hm.remove(element)
 
-    @Test
-    fun runStressTest() = StressOptions()
-        .iterations(100)
-        .invocationsPerIteration(50_000)
-        .actorsBefore(10)
-        .actorsAfter(10)
-        .threads(3)
-        .actorsPerThread(5)
-        .sequentialSpecification(IntHashMultisetSequential::class.java)
-        .logLevel(LoggingLevel.INFO)
-        .check(this::class.java)
+    override fun <O : Options<O, *>> O.customize() {
+        actorsPerThread(5)
+        sequentialSpecification(IntHashMultisetSequential::class.java)
+    }
 
-    @Test
-    fun runModelCheckingTest() = ModelCheckingOptions()
-        .iterations(100)
-        .invocationsPerIteration(50_000)
-        .actorsBefore(10)
-        .actorsAfter(10)
-        .threads(3)
-        .actorsPerThread(5)
-        .sequentialSpecification(IntHashMultisetSequential::class.java)
-        .logLevel(LoggingLevel.INFO)
-        .check(this::class.java)
+    override fun StressOptions.customizeStressOptions() {
+        invocationsPerIteration(50_000)
+    }
+
+    override fun ModelCheckingOptions.customizeModelCheckingOptions() {
+        invocationsPerIteration(50_000)
+    }
 }
 
 class IntHashMultisetSequential : VerifierState() {

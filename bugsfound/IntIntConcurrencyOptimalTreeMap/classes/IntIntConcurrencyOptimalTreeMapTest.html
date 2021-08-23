@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class IntIntConcurrencyOptimalTreeMapTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class IntIntConcurrencyOptimalTreeMapTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/default-package.html">default-package</a> &gt; IntIntConcurrencyOptimalTreeMapTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">2</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">2</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">16.489s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox failures" id="successRate">
+<div class="percent">0%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Failed tests</a>
+</li>
+<li>
+<a href="#tab1">Tests</a>
+</li>
+<li>
+<a href="#tab2">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Failed tests</h2>
+<div class="test">
+<a name="runModelCheckingTest"></a>
+<h3 class="failures">runModelCheckingTest</h3>
+<span class="code">
+<pre>org.jetbrains.kotlinx.lincheck.LincheckAssertionError: 
+= Invalid execution results =
+Parallel part:
+| putIfAbsent(5, 6): NullPointerException | putIfAbsent(6, 1): null |
+= The following interleaving leads to the error =
+Parallel part trace:
+|                                                                                                                                              | putIfAbsent(6, 1)                                                                                                                                |
+|                                                                                                                                              |   putIfAbsent(6,1): null at IntIntConcurrencyOptimalTreeMapTest.putIfAbsent(IntIntConcurrencyOptimalTreeMapTest.kt:29)                           |
+|                                                                                                                                              |     &lt;init&gt;(ConcurrencyOptimalTreeMap@1) at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:452)                             |
+|                                                                                                                                              |       l.READ: null at ConcurrencyOptimalTreeMap$Window.&lt;init&gt;(ConcurrencyOptimalTreeMap.java:411)                                                |
+|                                                                                                                                              |     traverse(6,Window@1): Window@1 at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:454)                                  |
+|                                                                                                                                              |       comparable(6): 6 at ConcurrencyOptimalTreeMap.traverse(ConcurrencyOptimalTreeMap.java:432)                                                 |
+|                                                                                                                                              |         comparator.READ: null at ConcurrencyOptimalTreeMap.comparable(ConcurrencyOptimalTreeMap.java:333)                                        |
+|                                                                                                                                              |     validateRefAndTryLock(Node@1,null,true): true at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:478)                   |
+|                                                                                                                                              |       tryWriteLockWithConditionRefLeft(null): true at ConcurrencyOptimalTreeMap.validateRefAndTryLock(ConcurrencyOptimalTreeMap.java:357)        |
+|                                                                                                                                              |         l.READ: null at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:165)                      |
+|                                                                                                                                              |         lStamp.READ: 0 at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:166)                    |
+|                                                                                                                                              |         compareAndSetLeftStamp(0,1): true at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:169) |
+|                                                                                                                                              |           compareAndSwapInt(Node@1,16,0,1): true at ConcurrencyOptimalTreeMap$Node.compareAndSetLeftStamp(ConcurrencyOptimalTreeMap.java:68)     |
+|                                                                                                                                              |         l.READ: null at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:170)                      |
+|                                                                                                                                              |       deleted.READ: false at ConcurrencyOptimalTreeMap.validateRefAndTryLock(ConcurrencyOptimalTreeMap.java:361)                                 |
+|                                                                                                                                              |     readLockState() at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:479)                                                 |
+|                                                                                                                                              |       stateStamp.READ: 0 at ConcurrencyOptimalTreeMap$Node.readLockState(ConcurrencyOptimalTreeMap.java:125)                                     |
+|                                                                                                                                              |       compareAndSetStateStamp(0,2): true at ConcurrencyOptimalTreeMap$Node.readLockState(ConcurrencyOptimalTreeMap.java:129)                     |
+|                                                                                                                                              |         compareAndSwapInt(Node@1,12,0,2): true at ConcurrencyOptimalTreeMap$Node.compareAndSetStateStamp(ConcurrencyOptimalTreeMap.java:64)      |
+|                                                                                                                                              |     deleted.READ: false at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:480)                                             |
+|                                                                                                                                              |     switch                                                                                                                                       |
+| putIfAbsent(5, 6)                                                                                                                            |                                                                                                                                                  |
+|   putIfAbsent(5,6): threw NullPointerException at IntIntConcurrencyOptimalTreeMapTest.putIfAbsent(IntIntConcurrencyOptimalTreeMapTest.kt:29) |                                                                                                                                                  |
+|     &lt;init&gt;(ConcurrencyOptimalTreeMap@1) at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:452)                         |                                                                                                                                                  |
+|       l.READ: null at ConcurrencyOptimalTreeMap$Window.&lt;init&gt;(ConcurrencyOptimalTreeMap.java:411)                                            |                                                                                                                                                  |
+|     traverse(5,Window@2): Window@2 at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:454)                              |                                                                                                                                                  |
+|       comparable(5): 5 at ConcurrencyOptimalTreeMap.traverse(ConcurrencyOptimalTreeMap.java:432)                                             |                                                                                                                                                  |
+|         comparator.READ: null at ConcurrencyOptimalTreeMap.comparable(ConcurrencyOptimalTreeMap.java:333)                                    |                                                                                                                                                  |
+|     validateRefAndTryLock(Node@1,null,true): false at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:478)              |                                                                                                                                                  |
+|       tryWriteLockWithConditionRefLeft(null): false at ConcurrencyOptimalTreeMap.validateRefAndTryLock(ConcurrencyOptimalTreeMap.java:357)   |                                                                                                                                                  |
+|         l.READ: null at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:165)                  |                                                                                                                                                  |
+|         lStamp.READ: 1 at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:166)                |                                                                                                                                                  |
+|       deleted.READ: false at ConcurrencyOptimalTreeMap.validateRefAndTryLock(ConcurrencyOptimalTreeMap.java:361)                             |                                                                                                                                                  |
+|     deleted.READ: false at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:493)                                         |                                                                                                                                                  |
+|     traverse(5,Window@2): threw NullPointerException at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:454)            |                                                                                                                                                  |
+|       comparable(5): 5 at ConcurrencyOptimalTreeMap.traverse(ConcurrencyOptimalTreeMap.java:432)                                             |                                                                                                                                                  |
+|         comparator.READ: null at ConcurrencyOptimalTreeMap.comparable(ConcurrencyOptimalTreeMap.java:333)                                    |                                                                                                                                                  |
+|   result: NullPointerException                                                                                                               |                                                                                                                                                  |
+|   thread is finished                                                                                                                         |                                                                                                                                                  |
+|                                                                                                                                              |     l.WRITE(Node@2) at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:482)                                                 |
+|                                                                                                                                              |     unlockReadState() at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:486)                                               |
+|                                                                                                                                              |       stateStamp.READ: 2 at ConcurrencyOptimalTreeMap$Node.unlockReadState(ConcurrencyOptimalTreeMap.java:288)                                   |
+|                                                                                                                                              |       compareAndSetStateStamp(2,0): true at ConcurrencyOptimalTreeMap$Node.unlockReadState(ConcurrencyOptimalTreeMap.java:289)                   |
+|                                                                                                                                              |         compareAndSwapInt(Node@1,12,2,0): true at ConcurrencyOptimalTreeMap$Node.compareAndSetStateStamp(ConcurrencyOptimalTreeMap.java:64)      |
+|                                                                                                                                              |     undoValidateAndTryLock(Node@1,true) at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:487)                             |
+|                                                                                                                                              |       unlockWriteLeft() at ConcurrencyOptimalTreeMap.undoValidateAndTryLock(ConcurrencyOptimalTreeMap.java:396)                                  |
+|                                                                                                                                              |         lStamp.WRITE(0) at ConcurrencyOptimalTreeMap$Node.unlockWriteLeft(ConcurrencyOptimalTreeMap.java:295)                                    |
+|                                                                                                                                              |   result: null                                                                                                                                   |
+|                                                                                                                                              |   thread is finished                                                                                                                             |
+	at org.jetbrains.kotlinx.lincheck.LinChecker.check(LinChecker.kt:50)
+	at org.jetbrains.kotlinx.lincheck.LinChecker$Companion.check(LinChecker.kt:210)
+	at AbstractLincheckTest.runModelCheckingTest(AbstractLincheckTest.kt:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.runTestClass(JUnitTestClassExecutor.java:110)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:58)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:38)
+	at org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestClassProcessor.processTestClass(AbstractJUnitTestClassProcessor.java:62)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)
+	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:119)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
+	at java.lang.Thread.run(Thread.java:748)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="runStressTest"></a>
+<h3 class="failures">runStressTest</h3>
+<span class="code">
+<pre>org.jetbrains.kotlinx.lincheck.LincheckAssertionError: 
+= Invalid execution results =
+Parallel part:
+| putIfAbsent(6, 2): NullPointerException | putIfAbsent(6, 2): null |
+	at org.jetbrains.kotlinx.lincheck.LinChecker.check(LinChecker.kt:50)
+	at org.jetbrains.kotlinx.lincheck.LinChecker$Companion.check(LinChecker.kt:210)
+	at AbstractLincheckTest.runStressTest(AbstractLincheckTest.kt:20)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.runTestClass(JUnitTestClassExecutor.java:110)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:58)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:38)
+	at org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestClassProcessor.processTestClass(AbstractJUnitTestClassProcessor.java:62)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)
+	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:119)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
+	at java.lang.Thread.run(Thread.java:748)
+</pre>
+</span>
+</div>
+</div>
+<div id="tab1" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="failures">runModelCheckingTest</td>
+<td class="failures">11.590s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="failures">runStressTest</td>
+<td class="failures">4.899s</td>
+<td class="failures">failed</td>
+</tr>
+</table>
+</div>
+<div id="tab2" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>
+= Iteration 1 / 100 =
+Execution scenario (init part):
+[putIfAbsent(6, 1), remove(7), containsKey(2), putIfAbsent(5, 9), putIfAbsent(6, 10), get(3), putIfAbsent(5, 8), containsKey(1), putIfAbsent(5, 6), remove(7)]
+Execution scenario (parallel part):
+| get(3)            | get(3)         | get(4)         |
+| putIfAbsent(5, 4) | remove(8)      | remove(8)      |
+| remove(8)         | containsKey(1) | remove(8)      |
+| containsKey(2)    | get(3)         | get(3)         |
+| containsKey(2)    | get(3)         | containsKey(2) |
+Execution scenario (post part):
+[putIfAbsent(6, 2), containsKey(1), containsKey(1), putIfAbsent(5, 2), containsKey(1), remove(8), putIfAbsent(5, 10), containsKey(1), get(3), putIfAbsent(6, 5)]
+
+= Iteration 2 / 100 =
+Execution scenario (init part):
+[get(3), get(4), containsKey(1), remove(7), remove(8), remove(8), putIfAbsent(6, 8), get(4), remove(7), putIfAbsent(6, 8)]
+Execution scenario (parallel part):
+| remove(8)         | putIfAbsent(6, 4) | putIfAbsent(5, 3) |
+| remove(7)         | containsKey(1)    | remove(7)         |
+| get(4)            | putIfAbsent(5, 6) | putIfAbsent(6, 5) |
+| remove(8)         | remove(8)         | containsKey(2)    |
+| putIfAbsent(5, 5) | containsKey(1)    | containsKey(2)    |
+Execution scenario (post part):
+[remove(8), get(3), putIfAbsent(6, 6), putIfAbsent(6, 2), putIfAbsent(6, 1), containsKey(1), containsKey(2), get(3), get(4), get(3)]
+
+= Iteration 3 / 100 =
+Execution scenario (init part):
+[containsKey(1), putIfAbsent(6, 4), containsKey(1), putIfAbsent(6, 9), get(3), remove(7), get(3), putIfAbsent(5, 5), remove(7), remove(8)]
+Execution scenario (parallel part):
+| remove(8)         | putIfAbsent(6, 8) | remove(7)         |
+| putIfAbsent(5, 3) | putIfAbsent(5, 1) | containsKey(1)    |
+| containsKey(2)    | get(3)            | containsKey(2)    |
+| containsKey(2)    | remove(7)         | containsKey(1)    |
+| containsKey(1)    | get(4)            | putIfAbsent(6, 4) |
+Execution scenario (post part):
+[get(3), remove(7), remove(8), putIfAbsent(6, 3), putIfAbsent(6, 3), containsKey(2), containsKey(1), remove(7), get(4), remove(8)]
+
+= Iteration 4 / 100 =
+Execution scenario (init part):
+[remove(7), containsKey(1), putIfAbsent(5, 4), get(4), putIfAbsent(5, 6), remove(7), containsKey(1), remove(7), remove(8), remove(8)]
+Execution scenario (parallel part):
+| get(3)            | remove(8)         | get(4)    |
+| containsKey(2)    | containsKey(2)    | remove(8) |
+| containsKey(2)    | putIfAbsent(6, 6) | remove(8) |
+| putIfAbsent(6, 8) | get(3)            | remove(7) |
+| putIfAbsent(6, 8) | get(4)            | get(3)    |
+Execution scenario (post part):
+[get(4), containsKey(1), remove(7), get(4), putIfAbsent(5, 3), putIfAbsent(6, 3), remove(8), putIfAbsent(5, 6), remove(8), putIfAbsent(5, 4)]
+
+= Iteration 5 / 100 =
+Execution scenario (init part):
+[get(3), get(4), containsKey(1), remove(7), containsKey(1), containsKey(1), containsKey(1), containsKey(1), get(4), containsKey(1)]
+Execution scenario (parallel part):
+| remove(8)         | get(4)            | remove(8)         |
+| get(3)            | remove(7)         | putIfAbsent(6, 9) |
+| putIfAbsent(5, 6) | putIfAbsent(6, 1) | get(3)            |
+| get(3)            | get(3)            | putIfAbsent(6, 6) |
+| remove(7)         | putIfAbsent(6, 6) | containsKey(1)    |
+Execution scenario (post part):
+[containsKey(2), containsKey(1), containsKey(2), get(3), remove(7), containsKey(1), remove(8), remove(7), remove(7), containsKey(1)]
+
+Invalid interleaving found, trying to minimize the scenario below:
+Execution scenario (init part):
+[get(3), get(4), containsKey(1), remove(7), containsKey(1), containsKey(1), containsKey(1), containsKey(1), get(4), containsKey(1)]
+Execution scenario (parallel part):
+| remove(8)         | get(4)            | remove(8)         |
+| get(3)            | remove(7)         | putIfAbsent(6, 9) |
+| putIfAbsent(5, 6) | putIfAbsent(6, 1) | get(3)            |
+| get(3)            | get(3)            | putIfAbsent(6, 6) |
+| remove(7)         | putIfAbsent(6, 6) | containsKey(1)    |
+Execution scenario (post part):
+[containsKey(2), containsKey(1), containsKey(2), get(3), remove(7), containsKey(1), remove(8), remove(7), remove(7), containsKey(1)]
+= Invalid execution results =
+Parallel part:
+| putIfAbsent(5, 6): NullPointerException | putIfAbsent(6, 1): null |
+= The following interleaving leads to the error =
+Parallel part trace:
+|                                                                                                                                              | putIfAbsent(6, 1)                                                                                                                                |
+|                                                                                                                                              |   putIfAbsent(6,1): null at IntIntConcurrencyOptimalTreeMapTest.putIfAbsent(IntIntConcurrencyOptimalTreeMapTest.kt:29)                           |
+|                                                                                                                                              |     &lt;init&gt;(ConcurrencyOptimalTreeMap@1) at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:452)                             |
+|                                                                                                                                              |       l.READ: null at ConcurrencyOptimalTreeMap$Window.&lt;init&gt;(ConcurrencyOptimalTreeMap.java:411)                                                |
+|                                                                                                                                              |     traverse(6,Window@1): Window@1 at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:454)                                  |
+|                                                                                                                                              |       comparable(6): 6 at ConcurrencyOptimalTreeMap.traverse(ConcurrencyOptimalTreeMap.java:432)                                                 |
+|                                                                                                                                              |         comparator.READ: null at ConcurrencyOptimalTreeMap.comparable(ConcurrencyOptimalTreeMap.java:333)                                        |
+|                                                                                                                                              |     validateRefAndTryLock(Node@1,null,true): true at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:478)                   |
+|                                                                                                                                              |       tryWriteLockWithConditionRefLeft(null): true at ConcurrencyOptimalTreeMap.validateRefAndTryLock(ConcurrencyOptimalTreeMap.java:357)        |
+|                                                                                                                                              |         l.READ: null at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:165)                      |
+|                                                                                                                                              |         lStamp.READ: 0 at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:166)                    |
+|                                                                                                                                              |         compareAndSetLeftStamp(0,1): true at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:169) |
+|                                                                                                                                              |           compareAndSwapInt(Node@1,16,0,1): true at ConcurrencyOptimalTreeMap$Node.compareAndSetLeftStamp(ConcurrencyOptimalTreeMap.java:68)     |
+|                                                                                                                                              |         l.READ: null at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:170)                      |
+|                                                                                                                                              |       deleted.READ: false at ConcurrencyOptimalTreeMap.validateRefAndTryLock(ConcurrencyOptimalTreeMap.java:361)                                 |
+|                                                                                                                                              |     readLockState() at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:479)                                                 |
+|                                                                                                                                              |       stateStamp.READ: 0 at ConcurrencyOptimalTreeMap$Node.readLockState(ConcurrencyOptimalTreeMap.java:125)                                     |
+|                                                                                                                                              |       compareAndSetStateStamp(0,2): true at ConcurrencyOptimalTreeMap$Node.readLockState(ConcurrencyOptimalTreeMap.java:129)                     |
+|                                                                                                                                              |         compareAndSwapInt(Node@1,12,0,2): true at ConcurrencyOptimalTreeMap$Node.compareAndSetStateStamp(ConcurrencyOptimalTreeMap.java:64)      |
+|                                                                                                                                              |     deleted.READ: false at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:480)                                             |
+|                                                                                                                                              |     switch                                                                                                                                       |
+| putIfAbsent(5, 6)                                                                                                                            |                                                                                                                                                  |
+|   putIfAbsent(5,6): threw NullPointerException at IntIntConcurrencyOptimalTreeMapTest.putIfAbsent(IntIntConcurrencyOptimalTreeMapTest.kt:29) |                                                                                                                                                  |
+|     &lt;init&gt;(ConcurrencyOptimalTreeMap@1) at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:452)                         |                                                                                                                                                  |
+|       l.READ: null at ConcurrencyOptimalTreeMap$Window.&lt;init&gt;(ConcurrencyOptimalTreeMap.java:411)                                            |                                                                                                                                                  |
+|     traverse(5,Window@2): Window@2 at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:454)                              |                                                                                                                                                  |
+|       comparable(5): 5 at ConcurrencyOptimalTreeMap.traverse(ConcurrencyOptimalTreeMap.java:432)                                             |                                                                                                                                                  |
+|         comparator.READ: null at ConcurrencyOptimalTreeMap.comparable(ConcurrencyOptimalTreeMap.java:333)                                    |                                                                                                                                                  |
+|     validateRefAndTryLock(Node@1,null,true): false at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:478)              |                                                                                                                                                  |
+|       tryWriteLockWithConditionRefLeft(null): false at ConcurrencyOptimalTreeMap.validateRefAndTryLock(ConcurrencyOptimalTreeMap.java:357)   |                                                                                                                                                  |
+|         l.READ: null at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:165)                  |                                                                                                                                                  |
+|         lStamp.READ: 1 at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:166)                |                                                                                                                                                  |
+|       deleted.READ: false at ConcurrencyOptimalTreeMap.validateRefAndTryLock(ConcurrencyOptimalTreeMap.java:361)                             |                                                                                                                                                  |
+|     deleted.READ: false at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:493)                                         |                                                                                                                                                  |
+|     traverse(5,Window@2): threw NullPointerException at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:454)            |                                                                                                                                                  |
+|       comparable(5): 5 at ConcurrencyOptimalTreeMap.traverse(ConcurrencyOptimalTreeMap.java:432)                                             |                                                                                                                                                  |
+|         comparator.READ: null at ConcurrencyOptimalTreeMap.comparable(ConcurrencyOptimalTreeMap.java:333)                                    |                                                                                                                                                  |
+|   result: NullPointerException                                                                                                               |                                                                                                                                                  |
+|   thread is finished                                                                                                                         |                                                                                                                                                  |
+|                                                                                                                                              |     l.WRITE(Node@2) at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:482)                                                 |
+|                                                                                                                                              |     unlockReadState() at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:486)                                               |
+|                                                                                                                                              |       stateStamp.READ: 2 at ConcurrencyOptimalTreeMap$Node.unlockReadState(ConcurrencyOptimalTreeMap.java:288)                                   |
+|                                                                                                                                              |       compareAndSetStateStamp(2,0): true at ConcurrencyOptimalTreeMap$Node.unlockReadState(ConcurrencyOptimalTreeMap.java:289)                   |
+|                                                                                                                                              |         compareAndSwapInt(Node@1,12,2,0): true at ConcurrencyOptimalTreeMap$Node.compareAndSetStateStamp(ConcurrencyOptimalTreeMap.java:64)      |
+|                                                                                                                                              |     undoValidateAndTryLock(Node@1,true) at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:487)                             |
+|                                                                                                                                              |       unlockWriteLeft() at ConcurrencyOptimalTreeMap.undoValidateAndTryLock(ConcurrencyOptimalTreeMap.java:396)                                  |
+|                                                                                                                                              |         lStamp.WRITE(0) at ConcurrencyOptimalTreeMap$Node.unlockWriteLeft(ConcurrencyOptimalTreeMap.java:295)                                    |
+|                                                                                                                                              |   result: null                                                                                                                                   |
+|                                                                                                                                              |   thread is finished                                                                                                                             |
+
+= Iteration 1 / 100 =
+Execution scenario (init part):
+[putIfAbsent(6, 1), remove(7), containsKey(2), putIfAbsent(5, 9), putIfAbsent(6, 10), get(3), putIfAbsent(5, 8), containsKey(1), putIfAbsent(5, 6), remove(7)]
+Execution scenario (parallel part):
+| get(3)            | get(3)         | get(4)    |
+| putIfAbsent(5, 4) | remove(8)      | remove(8) |
+| remove(8)         | containsKey(1) | remove(8) |
+| containsKey(2)    | get(3)         | get(3)    |
+Execution scenario (post part):
+[containsKey(2), get(3), containsKey(2), putIfAbsent(6, 2), containsKey(1), containsKey(1), putIfAbsent(5, 2), containsKey(1), remove(8), putIfAbsent(5, 10)]
+
+= Iteration 2 / 100 =
+Execution scenario (init part):
+[containsKey(1), get(3), putIfAbsent(6, 5), get(3), get(4), containsKey(1), remove(7), remove(8), remove(8), putIfAbsent(6, 8)]
+Execution scenario (parallel part):
+| get(4)    | remove(7)         | putIfAbsent(6, 8) |
+| remove(8) | putIfAbsent(6, 4) | putIfAbsent(5, 3) |
+| remove(7) | containsKey(1)    | remove(7)         |
+| get(4)    | putIfAbsent(5, 6) | putIfAbsent(6, 5) |
+Execution scenario (post part):
+[remove(8), remove(8), containsKey(2), putIfAbsent(5, 5), containsKey(1), containsKey(2), remove(8), get(3), putIfAbsent(6, 6), putIfAbsent(6, 2)]
+
+= Iteration 3 / 100 =
+Execution scenario (init part):
+[putIfAbsent(6, 1), containsKey(1), containsKey(2), get(3), get(4), get(3), containsKey(1), putIfAbsent(6, 4), containsKey(1), putIfAbsent(6, 9)]
+Execution scenario (parallel part):
+| get(3)            | remove(7)         | get(3)         |
+| putIfAbsent(5, 5) | remove(7)         | remove(8)      |
+| remove(8)         | putIfAbsent(6, 8) | remove(7)      |
+| putIfAbsent(5, 3) | putIfAbsent(5, 1) | containsKey(1) |
+Execution scenario (post part):
+[containsKey(2), get(3), containsKey(2), containsKey(2), remove(7), containsKey(1), containsKey(1), get(4), putIfAbsent(6, 4), get(3)]
+
+= Iteration 4 / 100 =
+Execution scenario (init part):
+[remove(7), remove(8), putIfAbsent(6, 3), putIfAbsent(6, 3), containsKey(2), containsKey(1), remove(7), get(4), remove(8), remove(7)]
+Execution scenario (parallel part):
+| containsKey(1)    | putIfAbsent(5, 4) | get(4)         |
+| putIfAbsent(5, 6) | remove(7)         | containsKey(1) |
+| remove(7)         | remove(8)         | remove(8)      |
+| get(3)            | remove(8)         | get(4)         |
+Execution scenario (post part):
+[containsKey(2), containsKey(2), remove(8), containsKey(2), putIfAbsent(6, 6), remove(8), putIfAbsent(6, 8), get(3), remove(7), putIfAbsent(6, 8)]
+
+= Iteration 5 / 100 =
+Execution scenario (init part):
+[get(4), get(3), get(4), containsKey(1), remove(7), get(4), putIfAbsent(5, 3), putIfAbsent(6, 3), remove(8), putIfAbsent(5, 6)]
+Execution scenario (parallel part):
+| remove(8)      | putIfAbsent(5, 4) | get(3)         |
+| get(4)         | containsKey(1)    | remove(7)      |
+| containsKey(1) | containsKey(1)    | containsKey(1) |
+| containsKey(1) | get(4)            | containsKey(1) |
+Execution scenario (post part):
+[remove(8), get(4), remove(8), get(3), remove(7), putIfAbsent(6, 9), putIfAbsent(5, 6), putIfAbsent(6, 1), get(3), get(3)]
+
+= Iteration 6 / 100 =
+Execution scenario (init part):
+[get(3), putIfAbsent(6, 6), remove(7), putIfAbsent(6, 6), containsKey(1), containsKey(2), containsKey(1), containsKey(2), get(3), remove(7)]
+Execution scenario (parallel part):
+| containsKey(1) | remove(8)         | remove(7)         |
+| remove(7)      | containsKey(1)    | putIfAbsent(6, 1) |
+| get(3)         | putIfAbsent(6, 9) | putIfAbsent(5, 2) |
+| get(3)         | remove(8)         | get(3)            |
+Execution scenario (post part):
+[get(3), remove(8), remove(7), remove(7), putIfAbsent(5, 5), putIfAbsent(5, 7), remove(8), containsKey(2), containsKey(1), remove(8)]
+
+= Iteration 7 / 100 =
+Execution scenario (init part):
+[putIfAbsent(6, 3), get(3), get(4), containsKey(2), putIfAbsent(5, 3), get(4), putIfAbsent(5, 10), containsKey(2), get(3), get(4)]
+Execution scenario (parallel part):
+| get(4)         | putIfAbsent(5, 8) | putIfAbsent(6, 7) |
+| containsKey(2) | get(3)            | get(3)            |
+| containsKey(1) | remove(8)         | putIfAbsent(6, 7) |
+| remove(7)      | putIfAbsent(6, 8) | putIfAbsent(6, 7) |
+Execution scenario (post part):
+[putIfAbsent(5, 9), get(4), containsKey(2), putIfAbsent(5, 8), get(4), containsKey(1), remove(8), get(3), containsKey(2), putIfAbsent(5, 4)]
+
+= Iteration 8 / 100 =
+Execution scenario (init part):
+[containsKey(1), putIfAbsent(5, 8), get(3), containsKey(1), remove(8), remove(7), get(3), containsKey(2), get(4), get(3)]
+Execution scenario (parallel part):
+| putIfAbsent(6, 8) | get(4)    | get(4)            |
+| putIfAbsent(6, 9) | get(3)    | containsKey(2)    |
+| putIfAbsent(6, 6) | get(3)    | putIfAbsent(6, 9) |
+| remove(7)         | remove(8) | remove(7)         |
+Execution scenario (post part):
+[putIfAbsent(5, 9), containsKey(1), putIfAbsent(5, 8), containsKey(1), get(3), putIfAbsent(6, 2), putIfAbsent(5, 9), putIfAbsent(5, 9), remove(8), containsKey(1)]
+
+= Iteration 9 / 100 =
+Execution scenario (init part):
+[putIfAbsent(5, 9), get(4), containsKey(1), remove(8), putIfAbsent(6, 9), putIfAbsent(6, 3), putIfAbsent(6, 8), get(3), remove(7), remove(8)]
+Execution scenario (parallel part):
+| putIfAbsent(6, 2) | get(3)         | putIfAbsent(6, 7) |
+| get(4)            | get(3)         | remove(7)         |
+| remove(7)         | containsKey(1) | containsKey(2)    |
+| get(4)            | containsKey(1) | remove(8)         |
+Execution scenario (post part):
+[putIfAbsent(6, 1), containsKey(2), remove(8), putIfAbsent(6, 8), get(3), putIfAbsent(5, 3), putIfAbsent(5, 6), containsKey(1), containsKey(2), putIfAbsent(5, 1)]
+
+= Iteration 10 / 100 =
+Execution scenario (init part):
+[containsKey(1), get(3), putIfAbsent(6, 8), remove(7), get(4), remove(7), putIfAbsent(5, 4), containsKey(1), remove(8), get(3)]
+Execution scenario (parallel part):
+| putIfAbsent(5, 8)  | containsKey(1) | containsKey(2)    |
+| putIfAbsent(5, 10) | get(3)         | putIfAbsent(5, 6) |
+| get(3)             | containsKey(2) | putIfAbsent(6, 3) |
+| get(3)             | containsKey(1) | containsKey(2)    |
+Execution scenario (post part):
+[get(3), get(4), containsKey(2), get(4), get(3), containsKey(1), remove(7), containsKey(2), containsKey(1), putIfAbsent(6, 10)]
+
+= Iteration 11 / 100 =
+Execution scenario (init part):
+[containsKey(1), remove(7), remove(8), putIfAbsent(6, 4), putIfAbsent(5, 2), remove(8), containsKey(1), putIfAbsent(6, 2), putIfAbsent(5, 4), putIfAbsent(6, 1)]
+Execution scenario (parallel part):
+| containsKey(1) | containsKey(2)    | containsKey(2) |
+| remove(8)      | remove(8)         | remove(7)      |
+| get(3)         | remove(8)         | remove(8)      |
+| containsKey(1) | putIfAbsent(5, 9) | containsKey(1) |
+Execution scenario (post part):
+[putIfAbsent(5, 5), putIfAbsent(5, 7), get(3), containsKey(2), putIfAbsent(5, 4), get(3), remove(8), putIfAbsent(5, 8), containsKey(2), get(3)]
+
+= Iteration 12 / 100 =
+Execution scenario (init part):
+[remove(8), get(4), containsKey(1), remove(7), get(3), putIfAbsent(6, 3), putIfAbsent(6, 6), remove(8), get(3), remove(8)]
+Execution scenario (parallel part):
+| containsKey(1)     | get(3)            | containsKey(2)    |
+| remove(8)          | containsKey(2)    | remove(7)         |
+| putIfAbsent(5, 2)  | putIfAbsent(6, 7) | putIfAbsent(6, 6) |
+| putIfAbsent(5, 10) | get(3)            | get(4)            |
+Execution scenario (post part):
+[putIfAbsent(6, 4), containsKey(1), containsKey(1), containsKey(2), get(4), containsKey(2), containsKey(1), containsKey(1), putIfAbsent(6, 8), remove(8)]
+
+= Iteration 13 / 100 =
+Execution scenario (init part):
+[get(4), containsKey(1), remove(7), putIfAbsent(5, 8), putIfAbsent(5, 2), remove(7), putIfAbsent(6, 8), get(3), get(4), get(4)]
+Execution scenario (parallel part):
+| get(3)            | putIfAbsent(6, 9) | get(3)         |
+| putIfAbsent(5, 4) | putIfAbsent(6, 1) | remove(8)      |
+| containsKey(2)    | containsKey(1)    | containsKey(2) |
+| putIfAbsent(6, 6) | remove(8)         | containsKey(2) |
+Execution scenario (post part):
+[putIfAbsent(6, 9), get(3), remove(8), get(4), containsKey(1), containsKey(2), containsKey(2), containsKey(2), putIfAbsent(5, 2), remove(7)]
+
+= Iteration 14 / 100 =
+Execution scenario (init part):
+[remove(8), containsKey(2), get(3), remove(8), containsKey(2), get(4), containsKey(1), containsKey(1), remove(7), putIfAbsent(6, 8)]
+Execution scenario (parallel part):
+| putIfAbsent(6, 8) | get(3)            | get(4)            |
+| containsKey(2)    | get(4)            | get(4)            |
+| remove(7)         | containsKey(2)    | putIfAbsent(5, 7) |
+| putIfAbsent(5, 2) | putIfAbsent(5, 1) | remove(7)         |
+Execution scenario (post part):
+[putIfAbsent(5, 2), containsKey(2), get(3), putIfAbsent(6, 2), containsKey(1), putIfAbsent(5, 5), putIfAbsent(6, 1), remove(8), putIfAbsent(6, 6), containsKey(2)]
+
+= Iteration 15 / 100 =
+Execution scenario (init part):
+[containsKey(1), remove(8), putIfAbsent(5, 7), remove(7), putIfAbsent(6, 5), remove(7), remove(7), remove(8), putIfAbsent(6, 5), putIfAbsent(5, 3)]
+Execution scenario (parallel part):
+| get(3)            | putIfAbsent(6, 3) | containsKey(1) |
+| remove(7)         | get(3)            | get(3)         |
+| putIfAbsent(5, 1) | remove(7)         | remove(8)      |
+| get(3)            | putIfAbsent(6, 9) | get(3)         |
+Execution scenario (post part):
+[containsKey(1), remove(8), putIfAbsent(5, 4), containsKey(1), remove(8), putIfAbsent(5, 10), containsKey(2), containsKey(2), get(3), putIfAbsent(5, 6)]
+
+= Iteration 16 / 100 =
+Execution scenario (init part):
+[putIfAbsent(6, 2), containsKey(2), containsKey(1), containsKey(2), get(3), containsKey(1), get(4), remove(7), get(4), containsKey(2)]
+Execution scenario (parallel part):
+| containsKey(2) | remove(7)         | get(3)    |
+| get(4)         | putIfAbsent(5, 1) | get(4)    |
+| containsKey(2) | get(3)            | get(3)    |
+| remove(8)      | containsKey(2)    | remove(7) |
+Execution scenario (post part):
+[putIfAbsent(5, 6), putIfAbsent(5, 3), get(3), remove(8), get(3), get(3), remove(7), putIfAbsent(5, 5), putIfAbsent(6, 10), get(4)]
+
+= Iteration 17 / 100 =
+Execution scenario (init part):
+[containsKey(1), containsKey(2), remove(8), get(4), remove(8), containsKey(1), remove(7), get(3), get(4), get(3)]
+Execution scenario (parallel part):
+| get(4)            | remove(7)         | putIfAbsent(5, 8) |
+| putIfAbsent(6, 2) | containsKey(1)    | get(3)            |
+| containsKey(1)    | putIfAbsent(6, 2) | remove(7)         |
+| remove(7)         | get(3)            | putIfAbsent(5, 4) |
+Execution scenario (post part):
+[putIfAbsent(6, 8), remove(7), get(4), containsKey(2), get(3), containsKey(2), containsKey(2), get(3), containsKey(2), remove(8)]
+
+Invalid interleaving found, trying to minimize the scenario below:
+Execution scenario (init part):
+[containsKey(1), containsKey(2), remove(8), get(4), remove(8), containsKey(1), remove(7), get(3), get(4), get(3)]
+Execution scenario (parallel part):
+| get(4)            | remove(7)         | putIfAbsent(5, 8) |
+| putIfAbsent(6, 2) | containsKey(1)    | get(3)            |
+| containsKey(1)    | putIfAbsent(6, 2) | remove(7)         |
+| remove(7)         | get(3)            | putIfAbsent(5, 4) |
+Execution scenario (post part):
+[putIfAbsent(6, 8), remove(7), get(4), containsKey(2), get(3), containsKey(2), containsKey(2), get(3), containsKey(2), remove(8)]
+= Invalid execution results =
+Parallel part:
+| putIfAbsent(6, 2): NullPointerException | putIfAbsent(6, 2): null |
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 6.8</a> at 19.08.2021 2:12:05</p>
+</div>
+</div>
+</body>
+</html>

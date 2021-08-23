@@ -24,7 +24,7 @@ private const val MAX_VALUE = 10
 class IntIntConcurrencyOptimalTreeMapTest: AbstractLincheckTest() {
     private val tree: ConcurrencyOptimalTreeMap<Int, Int> = ConcurrencyOptimalTreeMap()
 
-    @Operation
+    @Operation(handleExceptionsAsResult = [NullPointerException::class])
     fun putIfAbsent(@Param(name = "key") key: Int, @Param(name = "value") value: Int): Int? =
         tree.putIfAbsent(key, value)
 

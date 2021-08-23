@@ -166,3 +166,92 @@ After that, the second thread tries to release the lock of the current `root`, w
 To release the lock, the `seqNumber = seqNumber + 1` operation is performed, which, according to the authors' idea, should change an odd value (that is, a locked lock) to an even value (that is, an unlocked lock).
 But because of the error that occurred, exactly the opposite happens.
 Since the second thread finishes after that, this lock is now permanently locked, which leads to a deadlock on the first attempt to take this lock.
+
+## [ConcurrencyOptimalTreeMap](../src/ConcurrencyOptimalTreeMap/ConcurrencyOptimalTreeMap.java)
+
+[Lincheck](https://github.com/Kotlin/kotlinx-lincheck) found error while executing following scenario:
+```
+Parallel part:
+| putIfAbsent(5, 6): NullPointerException | putIfAbsent(6, 1): null |
+```
+
+The following interleaving leads to the error:
+```
+Parallel part trace:
+|                                                                                                                                              | putIfAbsent(6, 1)                                                                                                                                |
+|                                                                                                                                              |   putIfAbsent(6,1): null at IntIntConcurrencyOptimalTreeMapTest.putIfAbsent(IntIntConcurrencyOptimalTreeMapTest.kt:29)                           |
+|                                                                                                                                              |     <init>(ConcurrencyOptimalTreeMap@1) at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:452)                             |
+|                                                                                                                                              |       l.READ: null at ConcurrencyOptimalTreeMap$Window.<init>(ConcurrencyOptimalTreeMap.java:411)                                                |
+|                                                                                                                                              |     traverse(6,Window@1): Window@1 at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:454)                                  |
+|                                                                                                                                              |       comparable(6): 6 at ConcurrencyOptimalTreeMap.traverse(ConcurrencyOptimalTreeMap.java:432)                                                 |
+|                                                                                                                                              |         comparator.READ: null at ConcurrencyOptimalTreeMap.comparable(ConcurrencyOptimalTreeMap.java:333)                                        |
+|                                                                                                                                              |     validateRefAndTryLock(Node@1,null,true): true at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:478)                   |
+|                                                                                                                                              |       tryWriteLockWithConditionRefLeft(null): true at ConcurrencyOptimalTreeMap.validateRefAndTryLock(ConcurrencyOptimalTreeMap.java:357)        |
+|                                                                                                                                              |         l.READ: null at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:165)                      |
+|                                                                                                                                              |         lStamp.READ: 0 at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:166)                    |
+|                                                                                                                                              |         compareAndSetLeftStamp(0,1): true at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:169) |
+|                                                                                                                                              |           compareAndSwapInt(Node@1,16,0,1): true at ConcurrencyOptimalTreeMap$Node.compareAndSetLeftStamp(ConcurrencyOptimalTreeMap.java:68)     |
+|                                                                                                                                              |         l.READ: null at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:170)                      |
+|                                                                                                                                              |       deleted.READ: false at ConcurrencyOptimalTreeMap.validateRefAndTryLock(ConcurrencyOptimalTreeMap.java:361)                                 |
+|                                                                                                                                              |     readLockState() at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:479)                                                 |
+|                                                                                                                                              |       stateStamp.READ: 0 at ConcurrencyOptimalTreeMap$Node.readLockState(ConcurrencyOptimalTreeMap.java:125)                                     |
+|                                                                                                                                              |       compareAndSetStateStamp(0,2): true at ConcurrencyOptimalTreeMap$Node.readLockState(ConcurrencyOptimalTreeMap.java:129)                     |
+|                                                                                                                                              |         compareAndSwapInt(Node@1,12,0,2): true at ConcurrencyOptimalTreeMap$Node.compareAndSetStateStamp(ConcurrencyOptimalTreeMap.java:64)      |
+|                                                                                                                                              |     deleted.READ: false at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:480)                                             |
+|                                                                                                                                              |     switch                                                                                                                                       |
+| putIfAbsent(5, 6)                                                                                                                            |                                                                                                                                                  |
+|   putIfAbsent(5,6): threw NullPointerException at IntIntConcurrencyOptimalTreeMapTest.putIfAbsent(IntIntConcurrencyOptimalTreeMapTest.kt:29) |                                                                                                                                                  |
+|     <init>(ConcurrencyOptimalTreeMap@1) at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:452)                         |                                                                                                                                                  |
+|       l.READ: null at ConcurrencyOptimalTreeMap$Window.<init>(ConcurrencyOptimalTreeMap.java:411)                                            |                                                                                                                                                  |
+|     traverse(5,Window@2): Window@2 at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:454)                              |                                                                                                                                                  |
+|       comparable(5): 5 at ConcurrencyOptimalTreeMap.traverse(ConcurrencyOptimalTreeMap.java:432)                                             |                                                                                                                                                  |
+|         comparator.READ: null at ConcurrencyOptimalTreeMap.comparable(ConcurrencyOptimalTreeMap.java:333)                                    |                                                                                                                                                  |
+|     validateRefAndTryLock(Node@1,null,true): false at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:478)              |                                                                                                                                                  |
+|       tryWriteLockWithConditionRefLeft(null): false at ConcurrencyOptimalTreeMap.validateRefAndTryLock(ConcurrencyOptimalTreeMap.java:357)   |                                                                                                                                                  |
+|         l.READ: null at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:165)                  |                                                                                                                                                  |
+|         lStamp.READ: 1 at ConcurrencyOptimalTreeMap$Node.tryWriteLockWithConditionRefLeft(ConcurrencyOptimalTreeMap.java:166)                |                                                                                                                                                  |
+|       deleted.READ: false at ConcurrencyOptimalTreeMap.validateRefAndTryLock(ConcurrencyOptimalTreeMap.java:361)                             |                                                                                                                                                  |
+|     deleted.READ: false at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:493)                                         |                                                                                                                                                  |
+|     traverse(5,Window@2): threw NullPointerException at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:454)            |                                                                                                                                                  |
+|       comparable(5): 5 at ConcurrencyOptimalTreeMap.traverse(ConcurrencyOptimalTreeMap.java:432)                                             |                                                                                                                                                  |
+|         comparator.READ: null at ConcurrencyOptimalTreeMap.comparable(ConcurrencyOptimalTreeMap.java:333)                                    |                                                                                                                                                  |
+|   result: NullPointerException                                                                                                               |                                                                                                                                                  |
+|   thread is finished                                                                                                                         |                                                                                                                                                  |
+|                                                                                                                                              |     l.WRITE(Node@2) at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:482)                                                 |
+|                                                                                                                                              |     unlockReadState() at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:486)                                               |
+|                                                                                                                                              |       stateStamp.READ: 2 at ConcurrencyOptimalTreeMap$Node.unlockReadState(ConcurrencyOptimalTreeMap.java:288)                                   |
+|                                                                                                                                              |       compareAndSetStateStamp(2,0): true at ConcurrencyOptimalTreeMap$Node.unlockReadState(ConcurrencyOptimalTreeMap.java:289)                   |
+|                                                                                                                                              |         compareAndSwapInt(Node@1,12,2,0): true at ConcurrencyOptimalTreeMap$Node.compareAndSetStateStamp(ConcurrencyOptimalTreeMap.java:64)      |
+|                                                                                                                                              |     undoValidateAndTryLock(Node@1,true) at ConcurrencyOptimalTreeMap.putIfAbsent(ConcurrencyOptimalTreeMap.java:487)                             |
+|                                                                                                                                              |       unlockWriteLeft() at ConcurrencyOptimalTreeMap.undoValidateAndTryLock(ConcurrencyOptimalTreeMap.java:396)                                  |
+|                                                                                                                                              |         lStamp.WRITE(0) at ConcurrencyOptimalTreeMap$Node.unlockWriteLeft(ConcurrencyOptimalTreeMap.java:295)                                    |
+|                                                                                                                                              |   result: null                                                                                                                                   |
+|                                                                                                                                              |   thread is finished                                                                                                                             |
+```
+
+The tree consists of one dummy vertex, which is `ROOT`.
+The second thread comes, realizes that it wants to insert its node as the left child of `ROOT`, takes the lock on the left edge of `ROOT` and switches.
+The first thread, using the first `traverse` call, finds its `Window`, that is, the place where it wants to insert its value.
+`Window` has three fields: `ggprev`, `prev` and `cur`.
+As a result of the `traverse` call, `ggprev` and `cur` are null, `prev` equals `ROOT`.
+These are the correct values, and this is how it should be.
+Then it tries to take the lock on the left edge of `ROOT`, fails and gets here:
+```
+if (prev.deleted) {
+    window.reset();
+} else {
+    window.set(window.prev, window.gprev);
+}
+```
+Since `ROOT` is not deleted, thread falls into else, where an obviously erroneous action occurs: now `gprev` and `prev` are null, and `cur` is equal to `ROOT`.
+Judging by the code as a whole, the authors wanted to preserve the invariant that either null or a real (not fictitious) node lies in `cur`.
+In this line, this invariant was violated.
+Then the thread started doing everything all over again, starting the second iteration of the loop.
+There it called `traverse` for the second time, where there is a line:
+```
+comparison = k.compareTo(curr.key);
+```
+The `key` of the dummy node is `null`, so `compareTo` threw a `NullPointerException`.
+This is an incorrect behavior of the algorithm.
+
+For more information check [IntIntConcurrencyOptimalTreeMap](IntIntConcurrencyOptimalTreeMap).
